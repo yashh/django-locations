@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Your Locations</title>
+		<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=enter_your_yahoo_map_id"></script>
+		<style type="text/css">
+			div#ymap {
+						width: 300px;
+						height: 200px;
+					}
+		 </style>
+	</head>
+<body onload="initialize_ymap()">
+<div id="ymap"></div>
+{% for location in locations %}
+	{% if forloop.first %}
+			<script type="text/javascript">
+					function initialize_ymap()
+					{
+						// Create a map object
+						var map = new YMap(document.getElementById('ymap'));
+						var yPoint = new YGeoPoint({{ location.latitude }},{{ location.longitude }});
+							// Display the map centered on a geocoded location
+									map.drawZoomAndCenter(yPoint, 15);
+									// Create a new marker for an address
+									var myMarker = new YMarker(yPoint);
+								// Create some content to go inside the SmartWindow
+								var myMarkerContent = "{{request.user}} checked in at {{location.place}}";
+								// When the marker is clicked, show the SmartWindow
+								YEvent.Capture(myMarker, EventsList.MouseClick,
+									function() {
+										myMarker.openSmartWindow(myMarkerContent); 
+									});
+								// Put the marker on the map
+								map.addOverlay(myMarker);
+					}
+					</script>
+	{% endif %}
+ <p><a href="{{request.user.get_absolute_url}}">{{ request.user }}</a> checked in at {{ location.place }} at {{ location.time_checkin|date:"F d Y g:i a" }}</p>
+{% endfor %}
+	</body>
+</html>
