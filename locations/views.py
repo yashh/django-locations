@@ -18,7 +18,7 @@ except ImportError:
 def your_locations(request):
     user = request.user
     locations = Location.objects.filter(user=user)
-    return render_to_response("location/your_locations.html", {"locations": locations}, context_instance=RequestContext(request))
+    return render_to_response("locations/your_locations.html", {"locations": locations}, context_instance=RequestContext(request))
 
 # Gets data from the search form and tries to geocode that location.
 # I am passing an invisible checkin form which contains 'value={{ location.place}}' and other attributes
@@ -34,10 +34,10 @@ def new(request):
              place, (lat, lng) = y.geocode(p)
              location = {'place': place, 'latitude': lat, 'longitude': lng}
              checkin_form = CheckinForm()
-             return render_to_response("location/checkin.html", {"location": location, "checkin_form": checkin_form})
+             return render_to_response("locations/checkin.html", {"location": location, "checkin_form": checkin_form})
     else:
          location_form = LocationForm()
-         return render_to_response("location/new.html", {"location_form": location_form})
+         return render_to_response("locations/new.html", {"location_form": location_form})
 
 # When user clicks checkin, we write into the model Location with user, place, latitude and longitude info. Of course ,along with
 # the datetime of the checkin.
@@ -49,8 +49,8 @@ def checkin(request):
         if checkin_form.is_valid():
             c = Location(place=checkin_form.cleaned_data['place'], latitude=checkin_form.cleaned_data['latitude'], longitude=checkin_form.cleaned_data['longitude'], user=request.user, time_checkin= datetime.datetime.now())
             c.save()
-            return HttpResponseRedirect(reverse('location.views.your_locations'))
+            return HttpResponseRedirect(reverse('locations.views.your_locations'))
     else:
-        return HttpResponseRedirect(reverse('location.views.new'))
+        return HttpResponseRedirect(reverse('locations.views.new'))
 
          
