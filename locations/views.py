@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from geopy import geocoders  
-from location.models import Location
-from location.forms import *
+from locations.models import Location
+from locations.forms import *
 import datetime
 
 try:
