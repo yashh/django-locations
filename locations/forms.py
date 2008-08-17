@@ -1,7 +1,7 @@
 # Creating a HiddenBaseForm. from djangosnippets.org. 
 # Author : Yashh (www.yashh.com)
 
-from location.models import Location
+from locations.models import Location
 from django import forms
 from django.forms.forms import BoundField
 
