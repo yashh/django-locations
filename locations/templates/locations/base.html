@@ -1,0 +1,13 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block subnav %}
+    {% if user.is_authenticated %}
+        <ul>
+            <li><a href="{% url your_locations %} ">{% trans "Your Locations" %}</a></li>
+        </ul>
+    {% else %}
+        &nbsp;
+    {% endif %}
+{% endblock %}
