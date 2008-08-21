@@ -4,7 +4,7 @@ from django.conf.urls.defaults import *
 # and then checkin in to that place.
 
 urlpatterns = patterns('',
-    (r'^$', 'locations.views.your_locations'),
+    url(r'^$', 'locations.views.your_locations', name='your_locations'),
     (r'new/$', 'locations.views.new'),
     (r'checkin/$', 'locations.views.checkin'),
 )
