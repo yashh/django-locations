@@ -1,0 +1,20 @@
+{% extends "locations/base.html" %}
+{% load pagination_tags %}
+
+{% block head_title %}Near by checkins{% endblock %}
+
+{% block body %}
+
+{% if queryset %}
+		{% for location in queryset %}
+			<p><a href="{{ location.user.get_absolute_url }}">{{ location.user }}</a> checked in at {{ location.place }} on {{ location.time_checkin|date:"F d Y g:i a" }}</p>
+		{% endfor %}
+{% else %}
+		<p>There are no users who checked in near your location.</p>
+{% endif %}
+
+{% if message %}
+	<p>{{ message }}</p>
+{% endif %}
+{% endblock %}
+		

@@ -4,7 +4,9 @@ from django.conf.urls.defaults import *
 # and then checkin in to that place.
 
 urlpatterns = patterns('',
-    url(r'^$', 'locations.views.your_locations', name='your_locations'),
-    (r'new/$', 'locations.views.new'),
-    (r'checkin/$', 'locations.views.checkin'),
+    url(r'^$', 'locations.views.your_locations', name='your_checkins'),
+    (r'^new/$', 'locations.views.new'),
+    (r'^checkin/$', 'locations.views.checkin'),
+    url(r'^friends/checkins/$', 'locations.views.friends_checkins', name='friends_checkins'),
+    url(r'^nearby/checkins/$', 'locations.views.nearby_checkins', name='nearby_checkins'),
 )
