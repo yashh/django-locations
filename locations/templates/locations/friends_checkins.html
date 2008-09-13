@@ -1,0 +1,14 @@
+{% extends "locations/base.html" %}
+{% load pagination_tags %}
+
+{% block head_title %}Friends Locations{% endblock %}
+
+{% block body %}
+	{% for friendship in friends %}
+		{% if friendship.friend.location_set.latest.place %}
+		<p><a href="{{ friendship.friend.get_absolute_url }}">{{ friendship.friend.username }}</a> checked in at {{ friendship.friend.location_set.latest.place }}</p>
+		{% endif %}
+	{% endfor %}
+
+{% endblock %}
+ 
