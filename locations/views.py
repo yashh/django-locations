@@ -32,7 +32,7 @@ def lazy_key():
         raise ImproperlyConfigured('django-locations requires a valid ' +
             'YAHOO_MAPS_API_KEY setting.  Please register for a key at ' +
             'https://developer.yahoo.com/wsregapp/ and then insert your key ' +
-            'into the pinax settings file.')
+            'into the settings file.')
 
 # Shows the list of locations a user checked in
 def your_locations(request):
