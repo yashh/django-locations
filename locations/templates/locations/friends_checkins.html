@@ -5,10 +5,8 @@
 
 {% block body %}
 	{% for friendship in friends %}
-		{% if friendship.friend.location_set.latest.place %}
-		<p><a href="{{ friendship.friend.get_absolute_url }}">{{ friendship.friend.username }}</a> checked in at {{ friendship.friend.location_set.latest.place }}</p>
-		{% endif %}
+	    {% with friendship.friend.location_set.latest as location %}
+	        {% include "locations/location.html" %}
+		{% endwith %}
 	{% endfor %}
-
 {% endblock %}
- 

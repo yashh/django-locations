@@ -2,23 +2,10 @@
 
 
 {% block head_title %}New Location{% endblock %}
-{% block extra_head %}
-		<style type="text/css">
-			.message {
-						color: red; font-size: 12px;
-					}
-		 </style>
-{% endblock %}
 
 {% block body %}
-
-{% if message %}
-	<p class="message">{{ message }}</p>
-{% endif %}
-
-<form action="." method="POST" accept-charset="utf-8">
+<form method="POST" accept-charset="utf-8">
 	{{ location_form }}
 	<p><input type="submit" value="Continue &rarr;"></p>
 </form>
-
 {% endblock %}

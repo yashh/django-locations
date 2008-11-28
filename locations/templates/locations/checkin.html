@@ -1,46 +1,21 @@
 {% extends "locations/base.html" %}
 
-
 {% block head_title %}All Locations{% endblock %}
-{% block extra_head %}
-		<script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid=y.Z4iD9nV34EdofUSyd_B5bLj5hrf6wiNszlLacUyxedUanphrJ_ibbMjlntY9eufKwtW"></script>
-		<script type="text/javascript">
-				function initialize_ymap()
-				{
-					// Create a map object
-					var map = new YMap(document.getElementById('ymap'));
-					var yPoint = new YGeoPoint({{ location.latitude }},{{ location.longitude }});
-						// Display the map centered on a geocoded location
-								map.drawZoomAndCenter(yPoint, 12);
-								// Create a new marker for an address
-								var myMarker = new YMarker(yPoint);
-							// Create some content to go inside the SmartWindow
-							var myMarkerContent = "{{location.place}}";
-							// When the marker is clicked, show the SmartWindow
-							YEvent.Capture(myMarker, EventsList.MouseClick,
-								function() {
-									myMarker.openSmartWindow(myMarkerContent); 
-								});
-							// Put the marker on the map
-							map.addOverlay(myMarker);
-				}
-				</script>
-		<style type="text/css">
-			div#ymap {
-						width: 300px; height: 200px; float: right; border: 1px solid grey;
-					}
-		 </style>
-{% endblock %}
 
 {% block body %}
-<p>Did you mean: 
-{{ location.place }}</p>
-
-<form action="/locations/checkin/" method="POST">
+<p>Did you mean: {{ location.place }}</p>
+<form action="{% url loc_checkin %}" method="POST">
 	<input type="hidden" name="place" value="{{ location.place }}" id="id_place" /> 
 	<input type="hidden" name="latitude" value="{{ location.latitude }}" id="id_latitude" /> 
 	<input type="hidden" name="longitude" value="{{ location.longitude }}" id="id_longitude" />
 	<p><input type="submit" value="Checkin &rarr;"></p>
 </form>
 <div id="ymap"></div>
+{% endblock %}
+
+{% block extra_body %}
+    <script type="text/javascript">
+        var _geo = [[{{ location.latitude }}, {{ location.longitude }}, '{{ location.place }}']];
+    </script>
+    <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.8&appid={{ YAHOO_MAPS_API_KEY }}"></script>
 {% endblock %}

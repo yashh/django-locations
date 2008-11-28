@@ -2,13 +2,15 @@
 
 {% load i18n %}
 
+{% block rtab_id %}id="locations_tab"{% endblock %}
+
 {% block subnav %}
     {% if user.is_authenticated %}
-        <ul>
-            <li><a href="{% url your_checkins %} ">{% trans "Your Checkins" %}</a></li>
-						<li><a href="{% url friends_checkins %} ">{% trans "Friends Checkins" %}</a></li>
-						<li><a href="{% url nearby_checkins %} ">{% trans "Nearby Checkins" %}</a></li>
-        </ul>
+    <ul>
+        <li><a href="{% url loc_yours %} ">{% trans "Your Checkins" %}</a></li>
+        <li><a href="{% url loc_friends %} ">{% trans "Friends Checkins" %}</a></li>
+        <li><a href="{% url loc_nearby %} ">{% trans "Nearby Checkins" %}</a></li>
+    </ul>
     {% else %}
         &nbsp;
     {% endif %}
