@@ -21,20 +21,25 @@ try:
 except ImportError:
     notification = None
 
-try:
-    YAHOO_MAPS_API_KEY = getattr(settings, 'YAHOO_MAPS_API_KEY')
-except AttributeError:
-    raise ImproperlyConfigured('django-locations requires a valid ' +
-        'YAHOO_MAPS_API_KEY setting.  Please register for a key at ' +
-        'https://developer.yahoo.com/wsregapp/ and then insert your key into ' +
-        'the pinax settings file.')
+YAHOO_MAPS_API_KEY = None
+def lazy_key():
+    global YAHOO_MAPS_API_KEY
+    if YAHOO_MAPS_API_KEY is not None:
+        return YAHOO_MAPS_API_KEY
+    try:
+        return getattr(settings, 'YAHOO_MAPS_API_KEY')
+    except AttributeError:
+        raise ImproperlyConfigured('django-locations requires a valid ' +
+            'YAHOO_MAPS_API_KEY setting.  Please register for a key at ' +
+            'https://developer.yahoo.com/wsregapp/ and then insert your key ' +
+            'into the pinax settings file.')
 
 # Shows the list of locations a user checked in
 def your_locations(request):
     context = {
         'locations': Location.objects.filter(user=request.user),
         'location_form': LocationForm(),
-        'YAHOO_MAPS_API_KEY': YAHOO_MAPS_API_KEY,
+        'YAHOO_MAPS_API_KEY': lazy_key(),
     }
     return render_to_response("locations/your_locations.html",
         context,
@@ -48,11 +53,11 @@ your_locations = login_required(your_locations)
 # back to the view. I didn't know a better way of doing it.
 
 def new(request):
-    context = {'YAHOO_MAPS_API_KEY': YAHOO_MAPS_API_KEY}
+    context = {'YAHOO_MAPS_API_KEY': lazy_key()}
     if request.method == 'POST':
         location_form = LocationForm(request.POST)
         if location_form.is_valid():
-            y = geocoders.Yahoo(YAHOO_MAPS_API_KEY)
+            y = geocoders.Yahoo(lazy_key)
             p = location_form.cleaned_data['place']
             try:
                 (place, (lat, lng)) = list(y.geocode(p, exactly_one=False))[0]
@@ -105,7 +110,7 @@ def friends_checkins(request):
     friends = Friendship.objects.friends_for_user(user)
     context = {
         'friends': friends,
-        'YAHOO_MAPS_API_KEY': YAHOO_MAPS_API_KEY,
+        'YAHOO_MAPS_API_KEY': lazy_key(),
     }
     return render_to_response("locations/friends_checkins.html",
         context,
@@ -115,7 +120,7 @@ friends_checkins = login_required(friends_checkins)
 
 def nearby_checkins(request, distance=None):
     user = request.user
-    context = {'YAHOO_MAPS_API_KEY': YAHOO_MAPS_API_KEY}
+    context = {'YAHOO_MAPS_API_KEY': lazy_key()}
     if user.location_set.latest():
         place = user.location_set.latest()
         distance = getattr(settings, 'LOCATIONS_DISTANCE', 20)
