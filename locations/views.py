@@ -27,7 +27,8 @@ def lazy_key():
     if YAHOO_MAPS_API_KEY is not None:
         return YAHOO_MAPS_API_KEY
     try:
-        return getattr(settings, 'YAHOO_MAPS_API_KEY')
+        YAHOO_MAPS_API_KEY = getattr(settings, 'YAHOO_MAPS_API_KEY')
+        return YAHOO_MAPS_API_KEY
     except AttributeError:
         raise ImproperlyConfigured('django-locations requires a valid ' +
             'YAHOO_MAPS_API_KEY setting.  Please register for a key at ' +
