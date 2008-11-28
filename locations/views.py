@@ -13,7 +13,7 @@ from locations.models import Location
 from friends.models import Friendship
 from locations.forms import LocationForm, CheckinForm
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.core.exceptions import ImproperlyConfigured
 
 try:
@@ -64,8 +64,8 @@ def new(request):
                 # Actually returns more than one result but I am taking only the
                 # first result
             except HTTPError:
-                request.user.message_set.add(
-                    _('Location not found, Try something else.'))
+                request.user.message_set.create(
+                    message=_('Location not found, Try something else.'))
                 context['location_form'] = location_form
                 return render_to_response("locations/new.html",
                     context,
@@ -151,7 +151,8 @@ def nearby_checkins(request, distance=None):
             context_instance=RequestContext(request)
         )
     else:
-        request.user.message_set.add(_("You haven't checked in any location."))
+        request.user.message_set.create(
+            message=_("You haven't checked in any location."))
         return render_to_response("locations/nearby_checkins.html",
             context,
             context_instance=RequestContext(request)
