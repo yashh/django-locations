@@ -57,7 +57,7 @@ def new(request):
     if request.method == 'POST':
         location_form = LocationForm(request.POST)
         if location_form.is_valid():
-            y = geocoders.Yahoo(lazy_key)
+            y = geocoders.Yahoo(lazy_key())
             p = location_form.cleaned_data['place']
             try:
                 (place, (lat, lng)) = list(y.geocode(p, exactly_one=False))[0]
