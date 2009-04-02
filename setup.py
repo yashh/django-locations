@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='django-locations',
     version='0.1.0',
-    description='A location based social network using django & pinax',
+    description='A location based social network using Django & Pinax',
     author='Yashh',
     author_email='yash888@gmail.com',
     url='http://code.google.com/p/django-locations/',
@@ -19,5 +19,4 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
-    install_requires=['setuptools'],
 )
