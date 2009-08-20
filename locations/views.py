@@ -1,4 +1,5 @@
 import geopy.distance
+import geopy.units
 import datetime
 
 from urllib2 import HTTPError
@@ -126,8 +127,8 @@ def nearby_checkins(request, distance=None):
         place = user.location_set.latest()
         distance = getattr(settings, 'LOCATIONS_DISTANCE', 20)
         queryset = Location.objects.all()
-        rough_distance = geopy.distance.arc_degrees(
-            arcminutes=geopy.distance.nm(miles=distance)) * 2
+        rough_distance = geopy.units.degrees(
+            arcminutes=geopy.units.nm(miles=distance)) * 2
         queryset = queryset.filter(
             latitude__range=(place.latitude - rough_distance,
                 place.latitude + rough_distance),
@@ -142,7 +143,6 @@ def nearby_checkins(request, distance=None):
                     (place.latitude, place.longitude),
                     (location.latitude, location.longitude)
                 )
-                exact_distance.calculate()
                 if exact_distance.miles <= distance:
                     locations.append(location)
         queryset = queryset.filter(id__in=[l.id for l in locations])
