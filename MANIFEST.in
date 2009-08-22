@@ -1,0 +1,2 @@
+include locations/media/locations/locations.js
+recursive-include locations/templates *.html

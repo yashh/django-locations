@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 setup(
     name='django-locations',
     version='0.1.0',
-    description='A location based social network using django & pinax',
-    author='Yashh',
+    description='A location based social network using Django & Pinax',
+    author='Yashwanth Nelapati',
     author_email='yash888@gmail.com',
-    url='http://code.google.com/p/django-locations/',
+    url='http://github.com/yashh/django-locations/commits/master',
     packages=find_packages(),
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -19,5 +19,4 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
-    install_requires=['setuptools'],
 )
